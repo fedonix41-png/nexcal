@@ -11,11 +11,11 @@ const appName = process.env.NEXT_PUBLIC_APP_NAME || "OpenSlot";
 
 export const metadata: Metadata = {
   title: {
-    default: `${appName} — Self-Hosted Booking System`,
+    default: `${appName} — Система онлайн-бронирования`,
     template: `%s — ${appName}`,
   },
   description:
-    "Sistem reservasi dan manajemen antrean self-hosted untuk berbagai jenis bisnis.",
+    "Автономная система бронирования и управления очередью для различных видов бизнеса.",
 };
 
 export default function RootLayout({
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="ru">
       <body className={`${inter.variable} font-sans antialiased`}>{children}</body>
     </html>
   );

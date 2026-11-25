@@ -47,10 +47,10 @@ export default async function ServicesPage() {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-            Jenis Layanan
+            Виды услуг
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Kelola layanan yang tersedia beserta durasi konsultasi/tindakan.
+            Управляйте доступными услугами и длительностью консультаций/процедур.
           </p>
         </div>
         <AddServiceButton />
@@ -65,8 +65,8 @@ export default async function ServicesPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
             </svg>
           </div>
-          <p className="mt-4 text-sm font-medium text-slate-900 dark:text-white">Belum ada layanan</p>
-          <p className="mt-1 text-xs text-slate-500">Klik "Tambah Layanan" untuk memulai.</p>
+          <p className="mt-4 text-sm font-medium text-slate-900 dark:text-white">Услуг пока нет</p>
+          <p className="mt-1 text-xs text-slate-500">Нажмите «Добавить услугу», чтобы начать.</p>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -87,12 +87,12 @@ function ServiceCard({
   isOwner: boolean;
 }) {
   const durasiLabel = service.duration >= 60
-    ? `${Math.floor(service.duration / 60)} jam${service.duration % 60 > 0 ? ` ${service.duration % 60} menit` : ""}`
-    : `${service.duration} menit`;
+    ? `${Math.floor(service.duration / 60)} ч${service.duration % 60 > 0 ? ` ${service.duration % 60} мин` : ""}`
+    : `${service.duration} мин`;
 
   const priceLabel = service.price > 0
     ? `Rp ${service.price.toLocaleString("id-ID")}`
-    : "Gratis";
+    : "Бесплатно";
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
@@ -115,7 +115,7 @@ function ServiceCard({
             {priceLabel}
             {service.dpPercentage > 0 && (
               <span className="ml-1 text-xs text-slate-500 dark:text-slate-400">
-                (DP {service.dpPercentage}%)
+                (Предоплата {service.dpPercentage}%)
               </span>
             )}
           </p>
@@ -138,7 +138,7 @@ function ServiceCard({
             {/* Buffer time badge */}
             {service.bufferTime > 0 && (
               <span className="inline-flex items-center gap-1 rounded-lg bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
-                Jeda {service.bufferTime} mnt
+                Перерыв {service.bufferTime} мин
               </span>
             )}
 
@@ -150,7 +150,7 @@ function ServiceCard({
                   : "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400"
               }`}
             >
-              {service.isActive ? "Aktif" : "Nonaktif"}
+              {service.isActive ? "Активна" : "Неактивна"}
             </span>
 
             {/* Provider badge (OWNER only) */}

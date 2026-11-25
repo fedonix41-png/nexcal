@@ -12,7 +12,7 @@ export async function saveCalendarFeed(
   formData: FormData,
 ): Promise<{ error: string | null; success: boolean }> {
   const session = await auth();
-  if (!session?.user?.id) return { error: "Silakan masuk kembali.", success: false };
+  if (!session?.user?.id) return { error: "Пожалуйста, войдите снова.", success: false };
 
   const value = formData.get("calendarFeedUrl");
   const remove = formData.get("remove") === "true";
@@ -22,12 +22,12 @@ export async function saveCalendarFeed(
       if (typeof value !== "string" || value.length > 2048) throw new Error("Invalid URL");
       url = calendarFeedUrl(value).href;
     } catch {
-      return { error: "Masukkan tautan ICS publik dengan HTTPS atau webcal://.", success: false };
+      return { error: "Укажите публичную ссылку ICS с HTTPS или webcal://.", success: false };
     }
     try {
       await getCalendarBusyPeriods(url, new Date(), 0, true);
     } catch {
-      return { error: "Tautan ICS tidak dapat dibaca. Periksa tautan dan pengaturan publikasi kalender.", success: false };
+      return { error: "Не удалось прочитать ссылку ICS. Проверьте ссылку и настройки публикации календаря.", success: false };
     }
   }
 
@@ -37,7 +37,7 @@ export async function saveCalendarFeed(
       data: { calendarFeedUrl: url },
     });
   } catch {
-    return { error: "Gagal menyimpan kalender eksternal.", success: false };
+    return { error: "Не удалось сохранить внешний календарь.", success: false };
   }
   revalidatePath("/admin/settings");
   return { error: null, success: true };
@@ -76,7 +76,7 @@ export async function getOrgSettings() {
 // ============================================================
 
 const multiwaSchema = z.object({
-  multiwaUrl: z.string().url("URL tidak valid").or(z.literal("")),
+  multiwaUrl: z.string().url("Некорректный URL").or(z.literal("")),
   multiwaApiKey: z.string(),
   multiwaSessionId: z.string(),
 });
@@ -92,7 +92,7 @@ export async function saveMultiwaSettings(
     }
 
     const orgId = session.user.organizationId;
-    if (!orgId) return { error: "Organisasi tidak ditemukan.", success: false };
+    if (!orgId) return { error: "Организация не найдена.", success: false };
 
     const raw = {
       multiwaUrl: (formData.get("multiwaUrl") as string) || "",
@@ -102,7 +102,7 @@ export async function saveMultiwaSettings(
 
     const parsed = multiwaSchema.safeParse(raw);
     if (!parsed.success) {
-      return { error: parsed.error.issues[0]?.message || "Data tidak valid.", success: false };
+      return { error: parsed.error.issues[0]?.message || "Некорректные данные.", success: false };
     }
 
     await prisma.organization.update({
@@ -117,7 +117,7 @@ export async function saveMultiwaSettings(
     revalidatePath("/admin/settings");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal menyimpan pengaturan MultiWA.", success: false };
+    return { error: "Не удалось сохранить настройки MultiWA.", success: false };
   }
 }
 
@@ -141,7 +141,7 @@ export async function saveGcalSettings(
     }
 
     const orgId = session.user.organizationId;
-    if (!orgId) return { error: "Organisasi tidak ditemukan.", success: false };
+    if (!orgId) return { error: "Организация не найдена.", success: false };
 
     const raw = {
       gcalClientId: (formData.get("gcalClientId") as string) || "",
@@ -150,7 +150,7 @@ export async function saveGcalSettings(
 
     const parsed = gcalSchema.safeParse(raw);
     if (!parsed.success) {
-      return { error: parsed.error.issues[0]?.message || "Data tidak valid.", success: false };
+      return { error: parsed.error.issues[0]?.message || "Некорректные данные.", success: false };
     }
 
     await prisma.organization.update({
@@ -164,7 +164,7 @@ export async function saveGcalSettings(
     revalidatePath("/admin/settings");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal menyimpan pengaturan Google Calendar.", success: false };
+    return { error: "Не удалось сохранить настройки Google Calendar.", success: false };
   }
 }
 
@@ -189,7 +189,7 @@ export async function saveMidtransSettings(
     }
 
     const orgId = session.user.organizationId;
-    if (!orgId) return { error: "Organisasi tidak ditemukan.", success: false };
+    if (!orgId) return { error: "Организация не найдена.", success: false };
 
     const raw = {
       midtransServerKey: (formData.get("midtransServerKey") as string) || "",
@@ -199,7 +199,7 @@ export async function saveMidtransSettings(
 
     const parsed = midtransSchema.safeParse(raw);
     if (!parsed.success) {
-      return { error: parsed.error.issues[0]?.message || "Data tidak valid.", success: false };
+      return { error: parsed.error.issues[0]?.message || "Некорректные данные.", success: false };
     }
 
     await prisma.organization.update({
@@ -214,6 +214,6 @@ export async function saveMidtransSettings(
     revalidatePath("/admin/settings");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal menyimpan pengaturan Midtrans.", success: false };
+    return { error: "Не удалось сохранить настройки Midtrans.", success: false };
   }
 }

@@ -29,27 +29,27 @@ export default async function SettingsPage({
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Pengaturan
+          Настройки
         </h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          Kelola integrasi dan konfigurasi akun Anda
+          Управляйте интеграциями и параметрами вашей учётной записи
         </p>
       </div>
 
       {/* Flash messages from OAuth flow */}
       {params.gcal === "connected" && (
         <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/30 dark:text-green-300">
-          ✅ Google Calendar berhasil terhubung!
+          ✅ Google Calendar успешно подключён!
         </div>
       )}
       {params.gcal === "denied" && (
         <div className="rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 dark:border-yellow-800 dark:bg-yellow-950/30 dark:text-yellow-300">
-          ⚠️ Anda membatalkan proses koneksi Google Calendar.
+          ⚠️ Вы отменили подключение Google Calendar.
         </div>
       )}
       {params.gcal === "error" && (
         <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/30 dark:text-red-300">
-          ❌ Terjadi kesalahan saat menghubungkan Google Calendar.
+          ❌ Произошла ошибка при подключении Google Calendar.
         </div>
       )}
 
@@ -58,10 +58,10 @@ export default async function SettingsPage({
       {/* ========================================================== */}
       <div>
         <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-          📅 Kalender Pribadi
+          📅 Личный календарь
         </h2>
         <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
-          Hubungkan akun Google Calendar Anda agar jadwal booking otomatis muncul di kalender pribadi.
+          Подключите аккаунт Google Calendar, чтобы расписание бронирований автоматически появлялось в вашем личном календаре.
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <GCalCard connected={gcalStatus.connected} configured={gcalStatus.configured} />
@@ -75,10 +75,10 @@ export default async function SettingsPage({
       {isOwner && orgSettings && (
         <div>
           <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-            ⚙️ Integrasi Organisasi
+            ⚙️ Интеграции организации
           </h2>
           <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
-            Atur kunci API untuk seluruh organisasi. Kredensial ini digunakan oleh semua staf untuk menghubungkan kalender dan notifikasi WhatsApp.
+            Настройте API-ключи для всей организации. Эти учётные данные используются всеми сотрудниками для подключения календаря и уведомлений WhatsApp.
           </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <MultiwaSettingsForm data={{

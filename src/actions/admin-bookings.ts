@@ -100,7 +100,7 @@ export async function getBookings(
 // ============================================================
 
 const updateStatusSchema = z.object({
-  bookingId: z.string().min(1, "Booking ID wajib diisi."),
+  bookingId: z.string().min(1, "ID бронирования обязателен."),
   status: z.enum(["CONFIRMED", "CANCELLED", "COMPLETED", "NO_SHOW"]),
   cancelReason: z.string().max(500).optional(),
 });
@@ -116,7 +116,7 @@ export async function updateBookingStatus(
   try {
     const scope = await getDataScope();
     if (!scope) {
-      return { success: false, error: "Sesi tidak valid. Silakan login ulang." };
+      return { success: false, error: "Сессия недействительна. Пожалуйста, войдите снова." };
     }
 
     const raw = {
@@ -129,7 +129,7 @@ export async function updateBookingStatus(
     if (!parsed.success) {
       return {
         success: false,
-        error: parsed.error.issues[0]?.message || "Data tidak valid.",
+        error: parsed.error.issues[0]?.message || "Некорректные данные.",
       };
     }
 
@@ -145,14 +145,14 @@ export async function updateBookingStatus(
     });
 
     if (!booking) {
-      return { success: false, error: "Reservasi tidak ditemukan." };
+      return { success: false, error: "Бронирование не найдено." };
     }
 
     // Payment guard: prevent confirming unpaid bookings
     if (status === "CONFIRMED" && booking.totalPrice > 0 && booking.paymentStatus !== "PAID") {
       return {
         success: false,
-        error: "Reservasi berbayar harus lunas sebelum dikonfirmasi! Gunakan 'Tandai Lunas' terlebih dahulu.",
+        error: "Платное бронирование должно быть оплачено перед подтверждением! Сначала нажмите «Отметить оплаченным».",
       };
     }
 
@@ -211,7 +211,7 @@ export async function updateBookingStatus(
           });
           return {
             success: false,
-            error: `Konfirmasi dibatalkan karena link Google Meet gagal dibuat: ${errorMsg}`,
+            error: `Подтверждение отменено, так как не удалось создать ссылку Google Meet: ${errorMsg}`,
           };
         }
         // Non-virtual: GCal failure is non-blocking, just log it
@@ -225,7 +225,7 @@ export async function updateBookingStatus(
 
     return { success: true, error: null };
   } catch {
-    return { success: false, error: "Terjadi kesalahan sistem." };
+    return { success: false, error: "Произошла системная ошибка." };
   }
 }
 
@@ -243,14 +243,14 @@ export async function markAsPaidAction(bookingId: string): Promise<{ success: bo
       select: { id: true, paymentStatus: true, totalPrice: true },
     });
 
-    if (!booking) return { success: false, error: "Reservasi tidak ditemukan." };
+    if (!booking) return { success: false, error: "Бронирование не найдено." };
 
     if (booking.paymentStatus === "PAID") {
-      return { success: false, error: "Reservasi sudah lunas." };
+      return { success: false, error: "Бронирование уже оплачено." };
     }
 
     if (booking.totalPrice <= 0) {
-      return { success: false, error: "Reservasi ini gratis, tidak perlu ditandai lunas." };
+      return { success: false, error: "Это бронирование бесплатное, отмечать оплату не нужно." };
     }
 
     await prisma.booking.update({
@@ -261,7 +261,7 @@ export async function markAsPaidAction(bookingId: string): Promise<{ success: bo
     revalidatePath("/admin/bookings");
     return { success: true, error: null };
   } catch {
-    return { success: false, error: "Terjadi kesalahan sistem." };
+    return { success: false, error: "Произошла системная ошибка." };
   }
 }
 

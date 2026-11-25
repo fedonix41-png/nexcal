@@ -96,7 +96,7 @@ export class MidtransProvider implements PaymentProvider {
         console.warn("[Midtrans] Tidak ada konfigurasi Midtrans — payment dilewati.");
         return {
           success: false,
-          error: "Payment gateway belum dikonfigurasi. Atur di Pengaturan → Payment Gateway.",
+          error: "Платёжный шлюз не настроен. Укажите данные в разделе Настройки → Платёжный шлюз.",
         };
       }
 

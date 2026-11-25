@@ -22,11 +22,11 @@ export default async function BookingsPage({ searchParams }: PageProps) {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Daftar Reservasi
+          Список бронирований
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Kelola reservasi pasien yang masuk. Total:{" "}
-          <span className="font-semibold text-slate-700">{bookings.length}</span> reservasi.
+          Управляйте входящими бронированиями пациентов. Всего:{" "}
+          <span className="font-semibold text-slate-700">{bookings.length}</span> бронирований.
         </p>
       </div>
 

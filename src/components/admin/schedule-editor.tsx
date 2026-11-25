@@ -3,7 +3,7 @@
 import { useActionState, useState } from "react";
 import { saveScheduleAction } from "@/actions/schedule";
 
-const DAY_LABELS = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+const DAY_LABELS = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
 
 interface Session {
   dayOfWeek: number;
@@ -65,7 +65,7 @@ export function ScheduleEditor({
       {/* Success/Error */}
       {state.success && (
         <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950/30 dark:text-green-400">
-          ✅ Jadwal berhasil disimpan!
+          ✅ Расписание успешно сохранено!
         </div>
       )}
       {state.error && (
@@ -105,7 +105,7 @@ export function ScheduleEditor({
                           : "bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500"
                       }`}
                     >
-                      {label.substring(0, 2)}
+                      {["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"][dayOfWeek]}
                     </span>
                     <span
                       className={`text-sm font-medium ${
@@ -118,7 +118,7 @@ export function ScheduleEditor({
                     </span>
                     {!isActive && (
                       <span className="text-xs text-slate-400 dark:text-slate-500">
-                        (Libur)
+                        (Выходной)
                       </span>
                     )}
                   </div>
@@ -131,7 +131,7 @@ export function ScheduleEditor({
                     <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
-                    Sesi
+                    Сессия
                   </button>
                 </div>
 
@@ -182,7 +182,7 @@ export function ScheduleEditor({
           disabled={isPending}
           className="mt-6 w-full rounded-xl bg-linear-to-r from-blue-600 to-cyan-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98] disabled:opacity-60"
         >
-          {isPending ? "Menyimpan..." : "💾 Simpan Jadwal"}
+          {isPending ? "Сохранение..." : "💾 Сохранить расписание"}
         </button>
       </form>
     </div>

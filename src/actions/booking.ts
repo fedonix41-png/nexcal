@@ -15,19 +15,19 @@ import { getPaymentProvider, isPaymentEnabled, calculatePaymentAmount } from "@/
 // ============================================================
 
 const bookingSchema = z.object({
-  serviceTypeId: z.string().min(1, "Pilih jenis layanan."),
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Tanggal tidak valid."),
-  startTime: z.string().regex(/^\d{2}:\d{2}$/, "Waktu tidak valid."),
+  serviceTypeId: z.string().min(1, "Выберите вид услуги."),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Некорректная дата."),
+  startTime: z.string().regex(/^\d{2}:\d{2}$/, "Некорректное время."),
   patientName: z
     .string()
-    .min(2, "Nama minimal 2 karakter.")
-    .max(100, "Nama terlalu panjang."),
+    .min(2, "Имя должно содержать минимум 2 символа.")
+    .max(100, "Имя слишком длинное."),
   patientPhone: z
     .string()
-    .min(10, "Nomor WhatsApp minimal 10 digit.")
-    .max(20, "Nomor WhatsApp terlalu panjang.")
-    .regex(/^[0-9+\-\s]+$/, "Format nomor tidak valid."),
-  patientNotes: z.string().max(500, "Catatan terlalu panjang.").optional(),
+    .min(10, "Номер WhatsApp должен содержать минимум 10 цифр.")
+    .max(20, "Номер WhatsApp слишком длинный.")
+    .regex(/^[0-9+\-\s]+$/, "Неверный формат номера."),
+  patientNotes: z.string().max(500, "Примечание слишком длинное.").optional(),
 });
 
 // ============================================================
@@ -74,7 +74,7 @@ export async function createBookingAction(
 
     const parsed = bookingSchema.safeParse(raw);
     if (!parsed.success) {
-      const firstError = parsed.error.issues[0]?.message || "Data tidak valid.";
+      const firstError = parsed.error.issues[0]?.message || "Некорректные данные.";
       return { ...empty, error: firstError };
     }
 
@@ -87,7 +87,7 @@ export async function createBookingAction(
     });
 
     if (!service) {
-      return { ...empty, error: "Layanan tidak ditemukan." };
+      return { ...empty, error: "Услуга не найдена." };
     }
 
     // Ambil nama klinik/bisnis dan orgId dari pemilik
@@ -101,7 +101,7 @@ export async function createBookingAction(
     const refDate = startOfDay(targetDate);
     const slotStart = parse(startTime, "HH:mm", refDate);
     const slotEnd = addMinutes(slotStart, service.duration);
-    if (!Number.isFinite(+slotStart)) return { ...empty, error: "Tanggal atau waktu tidak valid." };
+    if (!Number.isFinite(+slotStart)) return { ...empty, error: "Некорректная дата или время." };
 
     // ============================================
     // LAPIS 2: Re-check slot sebelum insert
@@ -161,7 +161,7 @@ export async function createBookingAction(
     if (!isSlotAvailable) {
       return {
         ...empty,
-        error: "Maaf, slot ini sudah tidak tersedia. Silakan pilih waktu lain.",
+        error: "Извините, этот слот больше не доступен. Пожалуйста, выберите другое время.",
       };
     }
 
@@ -258,7 +258,7 @@ export async function createBookingAction(
       if (isBookingSlotConflict(dbError)) {
         return {
           ...empty,
-          error: "Slot ini baru saja dipesan oleh orang lain. Silakan pilih waktu lain.",
+          error: "Этот слот только что забронировал другой пользователь. Пожалуйста, выберите другое время.",
         };
       }
       throw dbError; // Re-throw unexpected errors
@@ -266,7 +266,7 @@ export async function createBookingAction(
   } catch (error) {
     return {
       ...empty,
-      error: error instanceof CalendarFeedError ? error.message : "Terjadi kesalahan sistem. Silakan coba lagi.",
+      error: error instanceof CalendarFeedError ? error.message : "Произошла системная ошибка. Пожалуйста, попробуйте снова.",
     };
   }
 }

@@ -101,7 +101,7 @@ async function canModifyBooking(booking: ManagedBooking): Promise<{
 }> {
   const isActive = ["PENDING", "CONFIRMED"].includes(booking.status);
   if (!isActive) {
-    return { canCancel: false, canReschedule: false, reason: "Booking sudah tidak aktif." };
+    return { canCancel: false, canReschedule: false, reason: "Бронирование уже неактивно." };
   }
   const now = new Date();
   const hoursUntilStart = (new Date(booking.startTime).getTime() - now.getTime()) / (1000 * 60 * 60);
@@ -109,14 +109,14 @@ async function canModifyBooking(booking: ManagedBooking): Promise<{
     return {
       canCancel: false,
       canReschedule: false,
-      reason: "Perubahan hanya bisa dilakukan minimal 24 jam sebelum jadwal.",
+      reason: "Изменения возможны минимум за 24 часа до назначенного времени.",
     };
   }
   const canReschedule = booking.rescheduleCount < 1;
   return {
     canCancel: true,
     canReschedule,
-    reason: canReschedule ? undefined : "Batas perubahan jadwal telah habis. Silakan hubungi admin.",
+    reason: canReschedule ? undefined : "Лимит переносов исчерпан. Пожалуйста, свяжитесь с администратором.",
   };
 }
 
@@ -128,7 +128,7 @@ export async function cancelBookingByPatient(
   token: string
 ): Promise<{ success: boolean; error?: string }> {
   const booking = await getBookingByToken(token);
-  if (!booking) return { success: false, error: "Booking tidak ditemukan." };
+  if (!booking) return { success: false, error: "Бронирование не найдено." };
 
   const { canCancel, reason } = await canModifyBooking(booking);
   if (!canCancel) return { success: false, error: reason };
@@ -137,7 +137,7 @@ export async function cancelBookingByPatient(
     where: { id: booking.id },
     data: {
       status: "CANCELLED",
-      cancelReason: "Dibatalkan oleh pasien melalui portal",
+      cancelReason: "Отменено пациентом через портал",
     },
   });
 
@@ -155,7 +155,7 @@ export async function rescheduleBookingByPatient(
   newTime: string    // "HH:mm"
 ): Promise<{ success: boolean; error?: string }> {
   const booking = await getBookingByToken(token);
-  if (!booking) return { success: false, error: "Booking tidak ditemukan." };
+  if (!booking) return { success: false, error: "Бронирование не найдено." };
 
   const { canReschedule, reason } = await canModifyBooking(booking);
   if (!canReschedule) return { success: false, error: reason };
@@ -164,12 +164,12 @@ export async function rescheduleBookingByPatient(
   const refDate = startOfDay(parse(newDate, "yyyy-MM-dd", new Date()));
   const slotStart = parse(`${newDate} ${newTime}`, "yyyy-MM-dd HH:mm", new Date());
   const slotEnd = addMinutes(slotStart, booking.serviceType.duration);
-  if (!Number.isFinite(+slotStart)) return { success: false, error: "Tanggal atau waktu tidak valid." };
+  if (!Number.isFinite(+slotStart)) return { success: false, error: "Некорректная дата или время." };
 
   // Verify new slot is in the future (>= 24h from now)
   const now = new Date();
   if (slotStart.getTime() - now.getTime() < 24 * 60 * 60 * 1000) {
-    return { success: false, error: "Jadwal baru harus minimal 24 jam dari sekarang." };
+    return { success: false, error: "Новое время должно быть не ранее чем через 24 часа от текущего момента." };
   }
 
   // Get the provider's userId from the booking
@@ -181,7 +181,7 @@ export async function rescheduleBookingByPatient(
       serviceType: { select: { bufferTime: true } },
     },
   });
-  if (!fullBooking) return { success: false, error: "Booking tidak ditemukan." };
+  if (!fullBooking) return { success: false, error: "Бронирование не найдено." };
 
   const dayOfWeek = refDate.getDay();
   const buffer = fullBooking.serviceType.bufferTime;
@@ -238,7 +238,7 @@ export async function rescheduleBookingByPatient(
   const isAvailable = slots.some((s) => s.startTime === newTime && s.available);
 
   if (!isAvailable) {
-    return { success: false, error: "Slot yang dipilih tidak tersedia. Silakan pilih waktu lain." };
+    return { success: false, error: "Выбранный слот недоступен. Пожалуйста, выберите другое время." };
   }
 
   // Update booking with new datetime + increment rescheduleCount
@@ -256,8 +256,8 @@ export async function rescheduleBookingByPatient(
     return {
       success: false,
       error: isBookingSlotConflict(error)
-        ? "Slot ini baru saja dipesan oleh orang lain."
-        : "Terjadi kesalahan sistem. Silakan coba lagi.",
+        ? "Этот слот только что забронировал другой пользователь."
+        : "Произошла системная ошибка. Пожалуйста, попробуйте снова.",
     };
   }
 

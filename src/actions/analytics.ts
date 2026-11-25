@@ -20,6 +20,7 @@ import {
   subDays,
   format,
 } from "date-fns";
+import { ru as ruLocale } from "date-fns/locale";
 
 // ============================================================
 // Types
@@ -212,7 +213,7 @@ export async function getAnalytics(): Promise<AnalyticsDashboard> {
     const detail = serviceMap.get(s.serviceTypeId) as { id: string; name: string; color: string | null } | undefined;
     return {
       serviceId: s.serviceTypeId,
-      serviceName: detail?.name || "Unknown",
+      serviceName: detail?.name || "Неизвестно",
       serviceColor: detail?.color || null,
       bookingCount: s._count,
       revenue: s._sum.totalPrice || 0,
@@ -244,7 +245,7 @@ export async function getAnalytics(): Promise<AnalyticsDashboard> {
       const user = userMap.get(p.userId) as { id: string; name: string } | undefined;
       return {
         userId: p.userId,
-        userName: user?.name || "Unknown",
+        userName: user?.name || "Неизвестно",
         bookingCount: p._count,
         completedCount: completedMap.get(p.userId) || 0,
         revenue: p._sum.totalPrice || 0,
@@ -297,7 +298,7 @@ export async function getAnalytics(): Promise<AnalyticsDashboard> {
   const dailyTrend: DailyTrend[] = Array.from(trendMap.entries()).map(
     ([dateStr, data]) => ({
       date: dateStr,
-      label: format(new Date(dateStr + "T12:00:00"), "dd MMM"),
+      label: format(new Date(dateStr + "T12:00:00"), "dd MMM", { locale: ruLocale }),
       bookings: data.bookings,
       revenue: data.revenue,
     })

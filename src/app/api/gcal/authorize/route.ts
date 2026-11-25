@@ -33,7 +33,7 @@ export async function GET() {
 
   if (!hasConfig) {
     return NextResponse.json(
-      { error: "Google Calendar not configured. Silakan isi Client ID dan Client Secret di Settings terlebih dahulu." },
+      { error: "Google Calendar не настроен. Пожалуйста, сначала заполните Client ID и Client Secret в разделе Настройки." },
       { status: 503 }
     );
   }

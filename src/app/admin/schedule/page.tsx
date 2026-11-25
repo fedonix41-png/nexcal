@@ -20,10 +20,10 @@ export default async function SchedulePage() {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Jadwal Operasional
+          Рабочее расписание
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Atur jam kerja mingguan dan override tanggal spesifik (libur/cuti).
+          Настройте еженедельный график работы и исключения для конкретных дат (выходные/отпуск).
         </p>
       </div>
 
@@ -36,11 +36,11 @@ export default async function SchedulePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
               <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Jam Kerja Mingguan
+                Еженедельные часы работы
               </h2>
             </div>
             <p className="mb-4 text-xs text-slate-500 dark:text-slate-400">
-              Klik tombol &quot;+ Sesi&quot; untuk menambah sesi (pagi, siang, dll) pada setiap hari. Sesuaikan jam mulai dan selesai setiap sesi.
+              Нажмите кнопку &quot;+ Сессия&quot;, чтобы добавить интервал (утро, день и т.д.) для каждого дня. Настройте время начала и окончания каждой сессии.
             </p>
             <ScheduleEditor key={JSON.stringify(initialSessions)} initialSessions={initialSessions} />
           </div>
@@ -54,11 +54,11 @@ export default async function SchedulePage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
               </svg>
               <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Libur & Override
+                Выходные и исключения
               </h2>
             </div>
             <p className="mb-4 text-xs text-slate-500 dark:text-slate-400">
-              Blokir tanggal tertentu (hari libur, cuti) atau atur jam operasional khusus.
+              Заблокируйте определённые даты (праздники, отпуск) или задайте особые часы работы.
             </p>
             <DateOverrideManager overrides={overrides} />
           </div>

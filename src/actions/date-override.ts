@@ -46,7 +46,7 @@ export async function createDateOverrideAction(
     });
 
     if (!parsed.success) {
-      return { error: "Data tidak valid. Periksa kembali input Anda.", success: false };
+      return { error: "Некорректные данные. Проверьте введённые значения.", success: false };
     }
 
     const { date, startTime, endTime, reason } = parsed.data;
@@ -54,7 +54,7 @@ export async function createDateOverrideAction(
     // Validasi jam jika bukan blocked
     if (!isBlocked && startTime && endTime && startTime >= endTime) {
       return {
-        error: "Jam selesai harus setelah jam mulai.",
+        error: "Время окончания должно быть позже времени начала.",
         success: false,
       };
     }
@@ -94,7 +94,7 @@ export async function createDateOverrideAction(
     revalidatePath("/admin/schedule");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal menyimpan override. Silakan coba lagi.", success: false };
+    return { error: "Не удалось сохранить исключение. Пожалуйста, попробуйте снова.", success: false };
   }
 }
 

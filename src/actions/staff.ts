@@ -35,9 +35,9 @@ export async function getStaffMembers() {
 // ============================================================
 
 const createStaffSchema = z.object({
-  name: z.string().min(2, "Nama minimal 2 karakter.").max(100),
-  email: z.string().email("Format email tidak valid."),
-  password: z.string().min(6, "Password minimal 6 karakter."),
+  name: z.string().min(2, "Имя должно содержать минимум 2 символа.").max(100),
+  email: z.string().email("Неверный формат email."),
+  password: z.string().min(6, "Пароль должен содержать минимум 6 символов."),
 });
 
 export interface CreateStaffResult {
@@ -51,12 +51,12 @@ export async function createStaffAction(
 ): Promise<CreateStaffResult> {
   const session = await auth();
   if (!session?.user?.id || session.user.role !== "OWNER") {
-    return { success: false, error: "Unauthorized — hanya OWNER yang dapat menambah staf." };
+    return { success: false, error: "Нет доступа — только владелец (OWNER) может добавлять сотрудников." };
   }
 
   const orgId = session.user.organizationId;
   if (!orgId) {
-    return { success: false, error: "Anda belum terhubung ke organisasi." };
+    return { success: false, error: "Вы ещё не привязаны к организации." };
   }
 
   const raw = {
@@ -67,7 +67,7 @@ export async function createStaffAction(
 
   const parsed = createStaffSchema.safeParse(raw);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message || "Data tidak valid." };
+    return { success: false, error: parsed.error.issues[0]?.message || "Некорректные данные." };
   }
 
   const { name, email, password } = parsed.data;
@@ -78,7 +78,7 @@ export async function createStaffAction(
     select: { id: true },
   });
   if (existing) {
-    return { success: false, error: "Email sudah terdaftar." };
+    return { success: false, error: "Этот email уже зарегистрирован." };
   }
 
   const hashedPassword = await hash(password, 10);
@@ -109,10 +109,10 @@ export async function createStaffAction(
 // ============================================================
 
 const updateStaffSchema = z.object({
-  name: z.string().min(2, "Nama minimal 2 karakter.").max(100),
-  email: z.string().email("Format email tidak valid."),
-  role: z.enum(["OWNER", "STAFF"], { message: "Role harus OWNER atau STAFF." }),
-  password: z.string().min(6, "Password minimal 6 karakter.").optional().or(z.literal("")),
+  name: z.string().min(2, "Имя должно содержать минимум 2 символа.").max(100),
+  email: z.string().email("Неверный формат email."),
+  role: z.enum(["OWNER", "STAFF"], { message: "Роль должна быть OWNER или STAFF." }),
+  password: z.string().min(6, "Пароль должен содержать минимум 6 символов.").optional().or(z.literal("")),
 });
 
 export async function updateStaffAction(
@@ -125,7 +125,7 @@ export async function updateStaffAction(
   }
 
   const orgId = session.user.organizationId;
-  if (!orgId) return { success: false, error: "Organisasi tidak ditemukan." };
+  if (!orgId) return { success: false, error: "Организация не найдена." };
 
   const raw = {
     name: formData.get("name") as string,
@@ -136,14 +136,14 @@ export async function updateStaffAction(
 
   const parsed = updateStaffSchema.safeParse(raw);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.issues[0]?.message || "Data tidak valid." };
+    return { success: false, error: parsed.error.issues[0]?.message || "Некорректные данные." };
   }
 
   // Verify staff belongs to this org
   const staff = await prisma.user.findFirst({
     where: { id: staffId, organizationId: orgId },
   });
-  if (!staff) return { success: false, error: "Staf tidak ditemukan." };
+  if (!staff) return { success: false, error: "Сотрудник не найден." };
 
   // Check email conflict (if changed)
   if (parsed.data.email !== staff.email) {
@@ -152,13 +152,13 @@ export async function updateStaffAction(
       select: { id: true },
     });
     if (existing) {
-      return { success: false, error: "Email sudah digunakan oleh user lain." };
+      return { success: false, error: "Этот email уже используется другим пользователем." };
     }
   }
 
   // Prevent demoting yourself
   if (staffId === session.user.id && parsed.data.role === "STAFF") {
-    return { success: false, error: "Anda tidak dapat menurunkan role Anda sendiri." };
+    return { success: false, error: "Вы не можете понизить собственную роль." };
   }
 
   // Build update data
@@ -193,20 +193,20 @@ export async function deleteStaffAction(staffId: string): Promise<CreateStaffRes
   }
 
   const orgId = session.user.organizationId;
-  if (!orgId) return { success: false, error: "Organisasi tidak ditemukan." };
+  if (!orgId) return { success: false, error: "Организация не найдена." };
 
   // Verify staff belongs to this org + not self
   const staff = await prisma.user.findFirst({
     where: { id: staffId, organizationId: orgId },
   });
-  if (!staff) return { success: false, error: "Staf tidak ditemukan." };
+  if (!staff) return { success: false, error: "Сотрудник не найден." };
 
   if (staffId === session.user.id) {
-    return { success: false, error: "Anda tidak dapat menghapus akun sendiri." };
+    return { success: false, error: "Вы не можете удалить собственную учётную запись." };
   }
 
   if (staff.role === "OWNER") {
-    return { success: false, error: "Tidak dapat menghapus akun OWNER." };
+    return { success: false, error: "Невозможно удалить учётную запись OWNER." };
   }
 
   await prisma.user.delete({ where: { id: staffId } });

@@ -10,13 +10,13 @@ import { getDataScope } from "@/lib/rbac";
 // ============================================================
 
 const createServiceSchema = z.object({
-  name: z.string().min(2, "Nama layanan minimal 2 karakter."),
-  duration: z.number().min(5, "Durasi minimal 5 menit.").max(480, "Durasi maksimal 480 menit."),
+  name: z.string().min(2, "Название услуги должно содержать минимум 2 символа."),
+  duration: z.number().min(5, "Минимальная длительность — 5 минут.").max(480, "Максимальная длительность — 480 минут."),
   bufferTime: z.number().min(0).max(60).default(0),
   price: z.number().min(0).default(0),
   dpPercentage: z.number().min(0).max(100).default(0),
   description: z.string().optional(),
-  color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Warna harus format hex (#RRGGBB).").optional(),
+  color: z.string().regex(/^#[0-9a-fA-F]{6}$/, "Цвет должен быть в формате hex (#RRGGBB).").optional(),
   isVirtual: z.boolean().default(false),
 });
 
@@ -47,7 +47,7 @@ export async function createServiceAction(
     const parsed = createServiceSchema.safeParse(JSON.parse(raw));
 
     if (!parsed.success) {
-      return { error: parsed.error.issues[0]?.message || "Data tidak valid.", success: false };
+      return { error: parsed.error.issues[0]?.message || "Некорректные данные.", success: false };
     }
 
     const { name, duration, bufferTime, price, dpPercentage, description, color, isVirtual } = parsed.data;
@@ -69,7 +69,7 @@ export async function createServiceAction(
     revalidatePath("/admin/services");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal membuat layanan.", success: false };
+    return { error: "Не удалось создать услугу.", success: false };
   }
 }
 
@@ -89,7 +89,7 @@ export async function updateServiceAction(
     const parsed = updateServiceSchema.safeParse(JSON.parse(raw));
 
     if (!parsed.success) {
-      return { error: parsed.error.issues[0]?.message || "Data tidak valid.", success: false };
+      return { error: parsed.error.issues[0]?.message || "Некорректные данные.", success: false };
     }
 
     const { id, name, duration, bufferTime, price, dpPercentage, description, color, isActive, isVirtual } = parsed.data;
@@ -98,7 +98,7 @@ export async function updateServiceAction(
     const existing = await prisma.serviceType.findFirst({
       where: { id, ...scope.userFilter },
     });
-    if (!existing) return { error: "Layanan tidak ditemukan.", success: false };
+    if (!existing) return { error: "Услуга не найдена.", success: false };
 
     await prisma.serviceType.update({
       where: { id },
@@ -118,7 +118,7 @@ export async function updateServiceAction(
     revalidatePath("/admin/services");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal memperbarui layanan.", success: false };
+    return { error: "Не удалось обновить услугу.", success: false };
   }
 }
 
@@ -135,7 +135,7 @@ export async function deleteServiceAction(serviceId: string): Promise<ActionResu
     const existing = await prisma.serviceType.findFirst({
       where: { id: serviceId, userId: scope.currentUserId },
     });
-    if (!existing) return { error: "Layanan tidak ditemukan.", success: false };
+    if (!existing) return { error: "Услуга не найдена.", success: false };
 
     // Check if service has bookings
     const bookingCount = await prisma.booking.count({
@@ -156,6 +156,6 @@ export async function deleteServiceAction(serviceId: string): Promise<ActionResu
     revalidatePath("/admin/services");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal menghapus layanan.", success: false };
+    return { error: "Не удалось удалить услугу.", success: false };
   }
 }

@@ -10,7 +10,7 @@
  */
 
 import { format } from "date-fns";
-import { id } from "date-fns/locale";
+import { ru } from "date-fns/locale";
 import { prisma } from "@/lib/prisma";
 
 // ============================================================
@@ -124,68 +124,68 @@ interface BookingInfo {
 }
 
 function formatDate(date: Date): string {
-  return format(date, "EEEE, d MMMM yyyy", { locale: id });
+  return format(date, "EEEE, d MMMM yyyy", { locale: ru });
 }
 
 function buildBookingReceivedMessage(info: BookingInfo): string {
   const clinic = info.clinicName || APP_NAME;
   const lines = [
-    `✅ *Booking Diterima*`,
+    `✅ *Бронирование принято*`,
     ``,
-    `Halo *${info.patientName}*,`,
-    `Booking Anda telah kami terima dan sedang menunggu konfirmasi.`,
+    `Здравствуйте, *${info.patientName}*!`,
+    `Ваше бронирование получено и ожидает подтверждения.`,
     ``,
-    `📋 *Detail Booking:*`,
-    `• Layanan: ${info.serviceName}`,
-    `• Tanggal: ${formatDate(info.date)}`,
-    `• Jam: ${info.startTime} (${info.duration} menit)`,
+    `📋 *Детали бронирования:*`,
+    `• Услуга: ${info.serviceName}`,
+    `• Дата: ${formatDate(info.date)}`,
+    `• Время: ${info.startTime} (${info.duration} мин)`,
     ``,
-    `Kami akan mengirim notifikasi setelah booking dikonfirmasi.`,
+    `Мы отправим уведомление после подтверждения бронирования.`,
   ];
   if (info.manageUrl) {
-    lines.push(``, `🔗 *Kelola Booking:* ${info.manageUrl}`);
+    lines.push(``, `🔗 *Управлять бронированием:* ${info.manageUrl}`);
   }
-  lines.push(``, `Terima kasih! 🙏`, `— ${clinic}`);
+  lines.push(``, `Спасибо! 🙏`, `— ${clinic}`);
   return lines.join("\n");
 }
 
 function buildBookingConfirmedMessage(info: BookingInfo): string {
   const clinic = info.clinicName || APP_NAME;
   const lines = [
-    `🎉 *Booking Dikonfirmasi!*`,
+    `🎉 *Бронирование подтверждено!*`,
     ``,
-    `Halo *${info.patientName}*,`,
-    `Booking Anda telah *dikonfirmasi*. Silakan datang sesuai jadwal berikut:`,
+    `Здравствуйте, *${info.patientName}*!`,
+    `Ваше бронирование *подтверждено*. Ждём вас по следующему расписанию:`,
     ``,
-    `📋 *Detail Booking:*`,
-    `• Layanan: ${info.serviceName}`,
-    `• Tanggal: ${formatDate(info.date)}`,
-    `• Jam: ${info.startTime} (${info.duration} menit)`,
+    `📋 *Детали бронирования:*`,
+    `• Услуга: ${info.serviceName}`,
+    `• Дата: ${formatDate(info.date)}`,
+    `• Время: ${info.startTime} (${info.duration} мин)`,
     ``,
-    `Mohon datang 10 menit sebelum jadwal.`,
+    `Пожалуйста, приходите за 10 минут до начала.`,
   ];
   if (info.manageUrl) {
-    lines.push(``, `🔗 *Kelola Booking:* ${info.manageUrl}`);
+    lines.push(``, `🔗 *Управлять бронированием:* ${info.manageUrl}`);
   }
-  lines.push(``, `Sampai jumpa! 👋`, `— ${clinic}`);
+  lines.push(``, `До встречи! 👋`, `— ${clinic}`);
   return lines.join("\n");
 }
 
 function buildBookingCancelledMessage(info: BookingInfo, reason?: string | null): string {
   const clinic = info.clinicName || APP_NAME;
   const lines = [
-    `❌ *Booking Dibatalkan*`,
+    `❌ *Бронирование отменено*`,
     ``,
-    `Halo *${info.patientName}*,`,
-    `Maaf, booking Anda telah dibatalkan.`,
+    `Здравствуйте, *${info.patientName}*!`,
+    `К сожалению, ваше бронирование было отменено.`,
     ``,
-    `📋 *Detail Booking:*`,
-    `• Layanan: ${info.serviceName}`,
-    `• Tanggal: ${formatDate(info.date)}`,
-    `• Jam: ${info.startTime}`,
+    `📋 *Детали бронирования:*`,
+    `• Услуга: ${info.serviceName}`,
+    `• Дата: ${formatDate(info.date)}`,
+    `• Время: ${info.startTime}`,
   ];
-  if (reason) lines.push(``, `📝 *Alasan:* ${reason}`);
-  lines.push(``, `Silakan lakukan booking ulang.`, ``, `Mohon maaf. 🙏`, `— ${clinic}`);
+  if (reason) lines.push(``, `📝 *Причина:* ${reason}`);
+  lines.push(``, `Пожалуйста, создайте новое бронирование.`, ``, `Приносим извинения. 🙏`, `— ${clinic}`);
   return lines.join("\n");
 }
 

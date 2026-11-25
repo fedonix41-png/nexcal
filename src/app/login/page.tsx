@@ -40,7 +40,7 @@ export default function LoginPage() {
           </div>
           <h1 className="text-2xl font-bold text-white">{appName}</h1>
           <p className="mt-1 text-sm text-blue-200/70">
-            Self-Hosted Booking System
+            Система онлайн-бронирования
           </p>
         </div>
 
@@ -48,10 +48,10 @@ export default function LoginPage() {
         <div className="rounded-2xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
           <div className="mb-6">
             <h2 className="text-xl font-semibold text-white">
-              Masuk ke Dashboard
+              Вход в дашборд
             </h2>
             <p className="mt-1 text-sm text-slate-400">
-              Gunakan akun admin untuk mengelola jadwal dan reservasi
+              Используйте учётную запись администратора для управления расписанием и бронированиями
             </p>
           </div>
 
@@ -101,7 +101,7 @@ export default function LoginPage() {
                 htmlFor="password"
                 className="mb-1.5 block text-sm font-medium text-slate-300"
               >
-                Password
+                Пароль
               </label>
               <input
                 id="password"
@@ -141,10 +141,10 @@ export default function LoginPage() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                     />
                   </svg>
-                  Memproses...
+                  Вход...
                 </span>
               ) : (
-                "Masuk"
+                "Войти"
               )}
             </button>
           </form>
@@ -152,7 +152,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="mt-6 text-center text-xs text-slate-500">
-          © {new Date().getFullYear()} {appName} — Self-Hosted Booking System
+          © {new Date().getFullYear()} {appName} — Система онлайн-бронирования
         </p>
       </div>
     </div>

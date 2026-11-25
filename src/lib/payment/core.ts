@@ -107,8 +107,8 @@ export function getPaymentProvider(
 
     default:
       throw new Error(
-        `Payment gateway "${name}" tidak didukung. ` +
-        `Atur gateway di Pengaturan → Payment Gateway (didukung: MIDTRANS).`
+        `Платёжный шлюз "${name}" не поддерживается. ` +
+        `Настройте шлюз в разделе Настройки → Платёжный шлюз (поддерживается: MIDTRANS).`
       );
   }
 }

@@ -7,10 +7,10 @@ const appName = process.env.NEXT_PUBLIC_APP_NAME || "OpenSlot";
 
 export const metadata: Metadata = {
   title: {
-    default: `Dashboard — ${appName}`,
-    template: `%s — ${appName} Admin`,
+    default: `Дашборд — ${appName}`,
+    template: `%s — ${appName} Админ`,
   },
-  description: `Panel administrasi ${appName}`,
+  description: `Панель администратора ${appName}`,
 };
 
 export default async function AdminLayout({

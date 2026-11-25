@@ -15,7 +15,7 @@ import {
   startOfDay,
   getDay,
 } from "date-fns";
-import { id as idLocale } from "date-fns/locale";
+import { ru as ruLocale } from "date-fns/locale";
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME || "NexCal";
 
@@ -75,10 +75,10 @@ function ProviderSelector({
   return (
     <div>
       <h2 className="mb-1 text-lg font-semibold text-slate-900">
-        Pilih Praktisi
+        Выберите специалиста
       </h2>
       <p className="mb-4 text-sm text-slate-500">
-        Pilih staf atau dokter yang akan menangani Anda.
+        Выберите сотрудника или врача, который проведёт приём.
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
         {providers.map((p) => {
@@ -153,7 +153,7 @@ function ServiceSelector({
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
-        <span className="ml-2 text-sm text-slate-500">Memuat layanan...</span>
+        <span className="ml-2 text-sm text-slate-500">Загрузка услуг...</span>
       </div>
     );
   }
@@ -161,18 +161,18 @@ function ServiceSelector({
   return (
     <div>
       <h2 className="mb-1 text-lg font-semibold text-slate-900">
-        Pilih Layanan
+        Выберите услугу
       </h2>
       <p className="mb-4 text-sm text-slate-500">
-        Jenis layanan menentukan durasi slot reservasi Anda.
+        Вид услуги определяет длительность вашего слота бронирования.
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
         {services.map((s) => {
           const isActive = selected === s.id;
           const durationLabel =
             s.duration >= 60
-              ? `${Math.floor(s.duration / 60)} jam${s.duration % 60 ? ` ${s.duration % 60} mnt` : ""}`
-              : `${s.duration} menit`;
+              ? `${Math.floor(s.duration / 60)} ч${s.duration % 60 ? ` ${s.duration % 60} мин` : ""}`
+              : `${s.duration} мин`;
 
           return (
             <button
@@ -211,11 +211,11 @@ function ServiceSelector({
                     ? "bg-emerald-50 text-emerald-700"
                     : "bg-slate-100 text-slate-500"
                 }`}>
-                  {s.price > 0 ? formatRupiah(s.price) : "Gratis"}
+                  {s.price > 0 ? formatRupiah(s.price) : "Бесплатно"}
                 </span>
                 {s.price > 0 && s.dpPercentage > 0 && s.dpPercentage < 100 && (
                   <span className="inline-flex items-center rounded-lg bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700">
-                    DP {s.dpPercentage}%
+                    Предоплата {s.dpPercentage}%
                   </span>
                 )}
               </div>
@@ -257,10 +257,10 @@ function CalendarPicker({
   return (
     <div>
       <h2 className="mb-1 text-lg font-semibold text-slate-900">
-        Pilih Tanggal
+        Выберите дату
       </h2>
       <p className="mb-4 text-sm text-slate-500">
-        Pilih tanggal reservasi Anda.
+        Выберите дату вашего бронирования.
       </p>
 
       <div className="rounded-xl border border-slate-200 bg-white p-4">
@@ -275,7 +275,7 @@ function CalendarPicker({
             </svg>
           </button>
           <h3 className="text-sm font-semibold text-slate-900">
-            {format(currentMonth, "MMMM yyyy", { locale: idLocale })}
+            {format(currentMonth, "LLLL yyyy", { locale: ruLocale })}
           </h3>
           <button
             type="button"
@@ -289,7 +289,7 @@ function CalendarPicker({
         </div>
 
         <div className="mb-1 grid grid-cols-7 text-center text-xs font-medium text-slate-400">
-          {["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"].map((d) => (
+          {["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"].map((d) => (
             <div key={d} className="py-1">{d}</div>
           ))}
         </div>
@@ -350,7 +350,7 @@ function SlotPicker({
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
-        <span className="ml-2 text-sm text-slate-500">Memuat slot...</span>
+        <span className="ml-2 text-sm text-slate-500">Загрузка слотов...</span>
       </div>
     );
   }
@@ -361,10 +361,10 @@ function SlotPicker({
     return (
       <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-6 text-center">
         <p className="text-sm font-medium text-amber-700">
-          ❌ Tidak ada jadwal operasional untuk tanggal ini.
+          ❌ На эту дату нет рабочего расписания.
         </p>
         <p className="mt-1 text-xs text-amber-600">
-          Mungkin hari libur atau di luar jam operasional. Coba pilih tanggal lain.
+          Возможно, это выходной или нерабочее время. Попробуйте выбрать другую дату.
         </p>
       </div>
     );
@@ -374,10 +374,10 @@ function SlotPicker({
     return (
       <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-6 text-center">
         <p className="text-sm font-medium text-red-700">
-          📅 Semua slot sudah terisi untuk tanggal ini.
+          📅 Все слоты на эту дату уже заняты.
         </p>
         <p className="mt-1 text-xs text-red-600">
-          Silakan pilih tanggal lain.
+          Пожалуйста, выберите другую дату.
         </p>
       </div>
     );
@@ -386,7 +386,7 @@ function SlotPicker({
   return (
     <div>
       <p className="mb-3 text-sm text-slate-500">
-        {available.length} slot tersedia
+        Доступно слотов: {available.length}
       </p>
       <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
         {slots.map((slot) => {
@@ -449,20 +449,20 @@ function BookingForm({
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
         </svg>
-        Kembali pilih waktu
+        Назад к выбору времени
       </button>
 
       <h2 className="mb-1 text-lg font-semibold text-slate-900">
-        Data Reservasi
+        Данные бронирования
       </h2>
       <p className="mb-4 text-sm text-slate-500">
-        Lengkapi data berikut untuk menyelesaikan reservasi.
+        Заполните следующие данные для завершения бронирования.
       </p>
 
       <div className="mb-4 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
-        <p className="text-xs font-medium text-blue-600">Slot dipilih</p>
+        <p className="text-xs font-medium text-blue-600">Выбранное время</p>
         <p className="text-sm font-semibold text-blue-900">
-          {format(new Date(date), "EEEE, d MMMM yyyy", { locale: idLocale })} — pukul {time}
+          {format(new Date(date), "EEEE, d MMMM yyyy", { locale: ruLocale })} — в {time}
         </p>
       </div>
 
@@ -479,21 +479,21 @@ function BookingForm({
 
         <div>
           <label htmlFor="patientName" className="mb-1 block text-sm font-medium text-slate-700">
-            Nama Lengkap *
+            Полное имя *
           </label>
           <input
             id="patientName"
             name="patientName"
             type="text"
             required
-            placeholder="Contoh: Siti Rahayu"
+            placeholder="Например: Siti Rahayu"
             className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
         </div>
 
         <div>
           <label htmlFor="patientPhone" className="mb-1 block text-sm font-medium text-slate-700">
-            Nomor WhatsApp *
+            Номер WhatsApp *
           </label>
           <input
             id="patientPhone"
@@ -507,13 +507,13 @@ function BookingForm({
 
         <div>
           <label htmlFor="patientNotes" className="mb-1 block text-sm font-medium text-slate-700">
-            Keluhan / Catatan
+            Жалобы / Примечание
           </label>
           <textarea
             id="patientNotes"
             name="patientNotes"
             rows={3}
-            placeholder="Tuliskan keluhan atau catatan penting (opsional)"
+            placeholder="Опишите жалобы или важные примечания (необязательно)"
             className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-100 resize-none"
           />
         </div>
@@ -529,10 +529,10 @@ function BookingForm({
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Memproses Reservasi...
+              Оформление бронирования...
             </span>
           ) : (
-            "✅ Konfirmasi Reservasi"
+            "✅ Подтвердить бронирование"
           )}
         </button>
       </form>
@@ -560,39 +560,39 @@ function BookingSuccess({ summary }: { summary: { serviceName: string; date: str
         )}
       </div>
       <h2 className="text-xl font-bold text-slate-900">
-        {needsPayment ? "Reservasi Tercatat! 📋" : "Reservasi Berhasil! 🎉"}
+        {needsPayment ? "Бронирование создано! 📋" : "Бронирование успешно! 🎉"}
       </h2>
       <p className="mt-2 text-sm text-slate-500">
         {needsPayment
-          ? `Terima kasih, ${summary.patientName}. Silakan selesaikan pembayaran untuk mengonfirmasi.`
-          : `Terima kasih, ${summary.patientName}. Reservasi Anda telah tercatat.`
+          ? `Спасибо, ${summary.patientName}. Пожалуйста, завершите оплату для подтверждения.`
+          : `Спасибо, ${summary.patientName}. Ваше бронирование зарегистрировано.`
         }
       </p>
 
       <div className="mx-auto mt-6 max-w-sm rounded-xl border border-slate-200 bg-slate-50 p-4 text-left">
         <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
-          Ringkasan
+          Сводка
         </h3>
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Layanan</span>
+            <span className="text-slate-500">Услуга</span>
             <span className="font-medium text-slate-900">{summary.serviceName}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Tanggal</span>
+            <span className="text-slate-500">Дата</span>
             <span className="font-medium text-slate-900">
-              {format(new Date(summary.date), "EEEE, d MMMM yyyy", { locale: idLocale })}
+              {format(new Date(summary.date), "EEEE, d MMMM yyyy", { locale: ruLocale })}
             </span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Pukul</span>
-            <span className="font-medium text-slate-900">{summary.time} WIB</span>
+            <span className="text-slate-500">Время</span>
+            <span className="font-medium text-slate-900">{summary.time}</span>
           </div>
           {summary.totalPrice != null && summary.totalPrice > 0 && (
             <>
               <div className="my-2 border-t border-dashed border-slate-200" />
               <div className="flex justify-between text-sm">
-                <span className="text-slate-500">Pembayaran</span>
+                <span className="text-slate-500">Оплата</span>
                 <span className="font-bold text-emerald-700">{formatRupiah(summary.totalPrice)}</span>
               </div>
             </>
@@ -609,14 +609,14 @@ function BookingSuccess({ summary }: { summary: { serviceName: string; date: str
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
           </svg>
-          💳 Bayar Sekarang — {formatRupiah(summary.totalPrice!)}
+          💳 Оплатить сейчас — {formatRupiah(summary.totalPrice!)}
         </a>
       )}
 
       {!needsPayment && (
         <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
           <p className="text-xs text-blue-600">
-            💡 Status reservasi: <span className="font-semibold">PENDING</span>. Anda akan mendapat konfirmasi dari admin.
+            💡 Статус бронирования: <span className="font-semibold">Ожидает</span>. Вы получите подтверждение от администратора.
           </p>
         </div>
       )}
@@ -631,10 +631,10 @@ function BookingSuccess({ summary }: { summary: { serviceName: string; date: str
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
             </svg>
-            📋 Kelola Reservasi Anda
+            📋 Управлять бронированием
           </a>
           <p className="mt-2 text-[11px] text-slate-400">
-            Simpan link ini untuk melihat status, menjadwalkan ulang, atau membatalkan reservasi.
+            Сохраните эту ссылку, чтобы проверять статус, переносить или отменять бронирование.
           </p>
         </div>
       )}
@@ -644,7 +644,7 @@ function BookingSuccess({ summary }: { summary: { serviceName: string; date: str
         onClick={() => window.location.reload()}
         className="mt-6 rounded-xl border border-slate-200 bg-white px-6 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50"
       >
-        Buat Reservasi Lain
+        Создать ещё одно бронирование
       </button>
     </div>
   );
@@ -728,8 +728,8 @@ export function BookingWizard({ providers }: { providers: Provider[] }) {
               : 0;
 
   const stepLabels = hasMultipleProviders
-    ? ["Praktisi", "Layanan", "Tanggal", "Waktu", "Data Diri"]
-    : ["Layanan", "Tanggal", "Waktu", "Data Diri"];
+    ? ["Специалист", "Услуга", "Дата", "Время", "Ваши данные"]
+    : ["Услуга", "Дата", "Время", "Ваши данные"];
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
@@ -748,7 +748,7 @@ export function BookingWizard({ providers }: { providers: Provider[] }) {
             href="/login"
             className="text-xs text-slate-400 hover:text-slate-600"
           >
-            Admin Login
+            Вход для администратора
           </a>
         </div>
       </header>
@@ -834,16 +834,16 @@ export function BookingWizard({ providers }: { providers: Provider[] }) {
             {selectedService && selectedDate && (
               <div>
                 <h2 className="mb-1 text-lg font-semibold text-slate-900">
-                  Pilih Waktu
+                  Выберите время
                 </h2>
                 <p className="mb-4 text-sm text-slate-500">
-                  Pilih salah satu slot yang tersedia.
+                  Выберите один из доступных слотов.
                 </p>
                 {slotError ? (
                   <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
                     <p role="alert">{slotError}</p>
                     <button type="button" onClick={() => setSlotRetry((count) => count + 1)} className="mt-2 font-semibold underline">
-                      Coba lagi
+                      Попробовать снова
                     </button>
                   </div>
                 ) : (
@@ -859,7 +859,7 @@ export function BookingWizard({ providers }: { providers: Provider[] }) {
                 onClick={() => setShowForm(true)}
                 className="w-full rounded-xl bg-linear-to-r from-blue-600 to-cyan-500 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98]"
               >
-                Lanjut → Isi Data Diri
+                Далее → Заполнить данные
               </button>
             )}
           </div>
@@ -869,7 +869,7 @@ export function BookingWizard({ providers }: { providers: Provider[] }) {
       {/* Footer */}
       <footer className="border-t border-slate-100 bg-white py-4 text-center">
         <p className="text-xs text-slate-400">
-          Powered by {appName} — Self-Hosted Booking System
+          Работает на {appName} — Система онлайн-бронирования
         </p>
       </footer>
     </div>

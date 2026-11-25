@@ -47,7 +47,7 @@ export async function saveScheduleAction(
     const parsed = bulkScheduleSchema.safeParse(JSON.parse(raw));
 
     if (!parsed.success) {
-      return { error: "Data jadwal tidak valid.", success: false };
+      return { error: "Некорректные данные расписания.", success: false };
     }
 
     const { sessions } = parsed.data;
@@ -56,7 +56,7 @@ export async function saveScheduleAction(
     for (const s of sessions) {
       if (s.startTime >= s.endTime) {
         return {
-          error: `Jam selesai harus setelah jam mulai (${s.startTime} - ${s.endTime}).`,
+          error: `Время окончания должно быть позже времени начала (${s.startTime} - ${s.endTime}).`,
           success: false,
         };
       }
@@ -85,7 +85,7 @@ export async function saveScheduleAction(
     revalidatePath("/admin/schedule");
     return { error: null, success: true };
   } catch {
-    return { error: "Gagal menyimpan jadwal. Silakan coba lagi.", success: false };
+    return { error: "Не удалось сохранить расписание. Пожалуйста, попробуйте снова.", success: false };
   }
 }
 

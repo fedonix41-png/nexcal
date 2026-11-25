@@ -3,7 +3,7 @@ import { async as icalAsync, expandRecurringEvent } from "node-ical";
 import type { ExistingBooking } from "./slots";
 import { downloadCalendarFeed } from "./calendar-feed-download";
 
-export const calendarUnavailable = "Kalender eksternal sedang tidak dapat diperiksa. Silakan coba lagi.";
+export const calendarUnavailable = "Не удалось проверить внешний календарь. Пожалуйста, попробуйте снова.";
 
 export class CalendarFeedError extends Error {}
 

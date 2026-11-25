@@ -10,7 +10,7 @@ import Link from "next/link";
 
 function formatRupiah(amount: number): string {
   if (amount >= 1_000_000) {
-    return `Rp ${(amount / 1_000_000).toFixed(1).replace(/\.0$/, "")} jt`;
+    return `Rp ${(amount / 1_000_000).toFixed(1).replace(/\.0$/, "")} млн`;
   }
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -46,10 +46,10 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-          Selamat Datang, {session?.user?.name?.split(",")[0]} 👋
+          Добро пожаловать, {session?.user?.name?.split(",")[0]} 👋
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Pusat komando bisnis — pantau pendapatan, reservasi, dan performa tim Anda.
+          Центр управления бизнесом — отслеживайте доходы, бронирования и эффективность вашей команды.
         </p>
       </div>
 
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
         {/* Revenue */}
         <div className="relative overflow-hidden rounded-2xl border border-emerald-200 bg-linear-to-br from-emerald-50 to-teal-50 p-5 shadow-sm dark:border-emerald-800 dark:from-emerald-950/40 dark:to-teal-950/30">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Pendapatan Bulan Ini</p>
+            <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">Доход за этот месяц</p>
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
@@ -80,7 +80,7 @@ export default async function DashboardPage() {
                 ▼ {Math.abs(analytics.revenue.growthPercent)}%
               </span>
             )}
-            <span className="text-xs text-slate-400">vs bulan lalu</span>
+            <span className="text-xs text-slate-400">к прошлому месяцу</span>
           </div>
           {/* Decorative circle */}
           <div className="pointer-events-none absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-emerald-200/30 dark:bg-emerald-700/10" />
@@ -88,9 +88,9 @@ export default async function DashboardPage() {
 
         {/* Pending */}
         <StatCard
-          title="Menunggu Konfirmasi"
+          title="Ожидают подтверждения"
           value={String(stats.pendingCount)}
-          subtitle={stats.pendingCount > 0 ? "Perlu tindakan Anda" : "Semua sudah tertangani"}
+          subtitle={stats.pendingCount > 0 ? "Требуется ваше действие" : "Всё обработано"}
           color="amber"
           icon={
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -101,9 +101,9 @@ export default async function DashboardPage() {
 
         {/* Completed */}
         <StatCard
-          title="Selesai (Total)"
+          title="Завершено (Всего)"
           value={String(analytics.bookingSummary.totalCompleted)}
-          subtitle={`${analytics.bookingSummary.cancellationRate}% tingkat pembatalan`}
+          subtitle={`${analytics.bookingSummary.cancellationRate}% отмен`}
           color="green"
           icon={
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -114,9 +114,9 @@ export default async function DashboardPage() {
 
         {/* Unpaid */}
         <StatCard
-          title="Belum Bayar"
+          title="Не оплачено"
           value={String(analytics.revenue.unpaidCount)}
-          subtitle={`${analytics.revenue.paidCount} sudah lunas bulan ini`}
+          subtitle={`${analytics.revenue.paidCount} оплачено в этом месяце`}
           color="purple"
           icon={
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -132,12 +132,12 @@ export default async function DashboardPage() {
       <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Tren Reservasi 30 Hari</h2>
-            <p className="text-xs text-slate-400">Jumlah reservasi harian (tidak termasuk batal)</p>
+            <h2 className="text-sm font-semibold text-slate-900 dark:text-white">Динамика бронирований за 30 дней</h2>
+            <p className="text-xs text-slate-400">Количество бронирований по дням (без отменённых)</p>
           </div>
           <div className="flex items-center gap-3 text-xs text-slate-400">
             <span className="flex items-center gap-1">
-              <span className="h-2.5 w-2.5 rounded-sm bg-blue-500" /> Reservasi
+              <span className="h-2.5 w-2.5 rounded-sm bg-blue-500" /> Бронирования
             </span>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default async function DashboardPage() {
               <div
                 key={d.date}
                 className="group relative flex-1"
-                title={`${d.label}: ${d.bookings} reservasi`}
+                title={`${d.label}: ${d.bookings} брон.`}
               >
                 <div
                   className="absolute inset-x-0 bottom-0 rounded-t-sm bg-blue-500 transition-all group-hover:bg-blue-600 dark:bg-blue-400"
@@ -181,10 +181,10 @@ export default async function DashboardPage() {
         {/* Top Services */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <h2 className="mb-4 text-sm font-semibold text-slate-900 dark:text-white">
-            🏆 Layanan Terpopuler (Bulan Ini)
+            🏆 Популярные услуги (Этот месяц)
           </h2>
           {analytics.topServices.length === 0 ? (
-            <p className="py-4 text-center text-xs text-slate-400">Belum ada data bulan ini.</p>
+            <p className="py-4 text-center text-xs text-slate-400">За этот месяц данных пока нет.</p>
           ) : (
             <div className="space-y-3">
               {analytics.topServices.map((s, i) => {
@@ -227,19 +227,19 @@ export default async function DashboardPage() {
         {analytics.isOwner && (
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <h2 className="mb-4 text-sm font-semibold text-slate-900 dark:text-white">
-              👥 Kinerja Staf (Bulan Ini)
+              👥 Эффективность сотрудников (Этот месяц)
             </h2>
             {analytics.providerPerformance.length === 0 ? (
-              <p className="py-4 text-center text-xs text-slate-400">Belum ada data bulan ini.</p>
+              <p className="py-4 text-center text-xs text-slate-400">За этот месяц данных пока нет.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
                     <tr className="border-b border-slate-100 dark:border-slate-800">
-                      <th className="pb-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Staf</th>
-                      <th className="pb-2 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Booking</th>
-                      <th className="pb-2 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Selesai</th>
-                      <th className="pb-2 text-right text-xs font-semibold uppercase tracking-wider text-slate-400">Revenue</th>
+                      <th className="pb-2 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Сотрудник</th>
+                      <th className="pb-2 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Бронирования</th>
+                      <th className="pb-2 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Завершено</th>
+                      <th className="pb-2 text-right text-xs font-semibold uppercase tracking-wider text-slate-400">Доход</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50">
@@ -272,13 +272,13 @@ export default async function DashboardPage() {
       <div className="mt-8">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-            Jadwal Hari Ini ({stats.todayCount})
+            Расписание на сегодня ({stats.todayCount})
           </h2>
           <Link
             href="/admin/bookings"
             className="text-sm font-medium text-blue-600 hover:text-blue-700"
           >
-            Lihat Semua →
+            Смотреть все →
           </Link>
         </div>
 
@@ -290,10 +290,10 @@ export default async function DashboardPage() {
               </svg>
             </div>
             <p className="mt-3 text-sm font-medium text-slate-600 dark:text-slate-400">
-              Tidak ada reservasi hari ini
+              На сегодня бронирований нет
             </p>
             <p className="mt-1 text-xs text-slate-400">
-              Jadwal Anda kosong untuk hari ini. Periksa halaman reservasi untuk daftar lengkap.
+              Ваше расписание на сегодня свободно. Проверьте страницу бронирований для просмотра полного списка.
             </p>
           </div>
         ) : (
@@ -324,7 +324,7 @@ export default async function DashboardPage() {
                           className="h-2 w-2 rounded-full"
                           style={{ backgroundColor: b.serviceType.color || "#6366f1" }}
                         />
-                        {b.serviceType.name} · {b.serviceType.duration} mnt
+                        {b.serviceType.name} · {b.serviceType.duration} мин
                       </div>
                     </div>
                   </div>
@@ -335,7 +335,7 @@ export default async function DashboardPage() {
                         : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400"
                     }`}
                   >
-                    {b.status === "CONFIRMED" ? "Dikonfirmasi" : "Menunggu"}
+                    {b.status === "CONFIRMED" ? "Подтверждено" : "Ожидает"}
                   </span>
                 </div>
               );

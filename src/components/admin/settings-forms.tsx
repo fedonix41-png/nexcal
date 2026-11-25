@@ -11,7 +11,7 @@ function Feedback({ state }: { state: { error: string | null; success: boolean }
   if (state.success) {
     return (
       <div className="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950/30 dark:text-green-400">
-        ✅ Pengaturan berhasil disimpan!
+        ✅ Настройки успешно сохранены!
       </div>
     );
   }
@@ -30,28 +30,28 @@ export function CalendarFeedForm({ connected }: { connected: boolean }) {
 
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-      <h3 className="font-semibold text-slate-900 dark:text-white">Kalender Eksternal (ICS)</h3>
+      <h3 className="font-semibold text-slate-900 dark:text-white">Внешний календарь (ICS)</h3>
       <p id="calendar-feed-help" className="mb-4 text-sm text-slate-600 dark:text-slate-300">
-        {connected ? "Kalender terhubung. " : ""}
-        Gunakan tautan ICS terbitan Outlook atau kalender lain untuk memblokir waktu sibuk.
+        {connected ? "Календарь подключён. " : ""}
+        Используйте опубликованную ссылку ICS из Outlook или другого календаря для блокировки занятого времени.
       </p>
       <div aria-live="polite"><Feedback state={state} /></div>
       <form action={formAction} className="space-y-3">
         <label htmlFor="calendar-feed-url" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-          {connected ? "Tautan ICS pengganti" : "Tautan ICS"}
+          {connected ? "Новая ссылка ICS" : "Ссылка ICS"}
         </label>
         <input id="calendar-feed-url" name="calendarFeedUrl" type="password" autoComplete="off"
           aria-describedby="calendar-feed-help" maxLength={2048} required
-          placeholder="https://… atau webcal://…"
+          placeholder="https://… или webcal://…"
           className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
         />
         <button type="submit" disabled={isPending} className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60">
-          {isPending ? "Memproses…" : "Simpan Kalender"}
+          {isPending ? "Обработка…" : "Сохранить календарь"}
         </button>
         {connected && (
           <button type="submit" name="remove" value="true" formNoValidate disabled={isPending}
             className="ml-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-50 dark:text-red-400 disabled:opacity-60">
-            Putuskan
+            Отключить
           </button>
         )}
       </form>
@@ -85,7 +85,7 @@ export function MultiwaSettingsForm({ data }: { data: MultiwaData }) {
         </div>
         <div>
           <h3 className="font-semibold text-slate-900 dark:text-white">WhatsApp (MultiWA)</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Konfigurasi gateway notifikasi WhatsApp</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Настройка шлюза уведомлений WhatsApp</p>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ export function MultiwaSettingsForm({ data }: { data: MultiwaData }) {
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">API Key</label>
           <input name="multiwaApiKey" type="password" defaultValue={data.multiwaApiKey || ""}
-            placeholder="Your API Key"
+            placeholder="Ваш API-ключ"
             className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           />
         </div>
@@ -116,7 +116,7 @@ export function MultiwaSettingsForm({ data }: { data: MultiwaData }) {
         <button type="submit" disabled={isPending}
           className="w-full rounded-xl bg-green-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
         >
-          {isPending ? "Menyimpan..." : "💾 Simpan Pengaturan WhatsApp"}
+          {isPending ? "Сохранение..." : "💾 Сохранить настройки WhatsApp"}
         </button>
       </form>
     </div>
@@ -148,7 +148,7 @@ export function GcalSettingsForm({ data }: { data: GcalData }) {
         </div>
         <div>
           <h3 className="font-semibold text-slate-900 dark:text-white">Google Calendar</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Kredensial OAuth untuk sinkronisasi kalender</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Учётные данные OAuth для синхронизации календаря</p>
         </div>
       </div>
 
@@ -172,7 +172,7 @@ export function GcalSettingsForm({ data }: { data: GcalData }) {
         <button type="submit" disabled={isPending}
           className="w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
         >
-          {isPending ? "Menyimpan..." : "💾 Simpan Pengaturan Google Calendar"}
+          {isPending ? "Сохранение..." : "💾 Сохранить настройки Google Calendar"}
         </button>
       </form>
     </div>
@@ -204,8 +204,8 @@ export function MidtransSettingsForm({ data }: { data: MidtransData }) {
           </svg>
         </div>
         <div>
-          <h3 className="font-semibold text-slate-900 dark:text-white">Payment Gateway (Midtrans)</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Konfigurasi pembayaran online via Midtrans Snap</p>
+          <h3 className="font-semibold text-slate-900 dark:text-white">Платёжный шлюз (Midtrans)</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Настройка онлайн-оплаты через Midtrans Snap</p>
         </div>
       </div>
 
@@ -215,22 +215,22 @@ export function MidtransSettingsForm({ data }: { data: MidtransData }) {
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Server Key</label>
           <input name="midtransServerKey" type="password" defaultValue={data.midtransServerKey || ""}
-            placeholder="SB-Mid-server-xxxx atau Mid-server-xxxx"
+            placeholder="SB-Mid-server-xxxx или Mid-server-xxxx"
             className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           />
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-300">Client Key</label>
           <input name="midtransClientKey" type="password" defaultValue={data.midtransClientKey || ""}
-            placeholder="SB-Mid-client-xxxx atau Mid-client-xxxx"
+            placeholder="SB-Mid-client-xxxx или Mid-client-xxxx"
             className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           />
         </div>
         <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800">
           <div>
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Mode Produksi</p>
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Рабочий режим (Production)</p>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              {data.midtransIsProd ? "🟢 Aktif — Transaksi uang sungguhan" : "🟡 Sandbox — Mode pengujian"}
+              {data.midtransIsProd ? "🟢 Активен — Реальные платежи" : "🟡 Sandbox — Тестовый режим"}
             </p>
           </div>
           <label className="relative inline-flex cursor-pointer items-center">
@@ -243,7 +243,7 @@ export function MidtransSettingsForm({ data }: { data: MidtransData }) {
         <button type="submit" disabled={isPending}
           className="w-full rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-amber-700 disabled:opacity-60"
         >
-          {isPending ? "Menyimpan..." : "💾 Simpan Pengaturan Midtrans"}
+          {isPending ? "Сохранение..." : "💾 Сохранить настройки Midtrans"}
         </button>
       </form>
     </div>

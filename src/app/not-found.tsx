@@ -8,17 +8,17 @@ export default function NotFound() {
           404
         </p>
         <h1 className="mt-4 text-2xl font-bold text-slate-900 dark:text-white">
-          Halaman Tidak Ditemukan
+          Страница не найдена
         </h1>
         <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          Maaf, halaman yang Anda cari tidak ada atau telah dipindahkan.
+          Извините, страница, которую вы ищете, не существует или была перемещена.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
           <Link
             href="/"
             className="rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow-md active:scale-95"
           >
-            Kembali ke Beranda
+            Вернуться на главную
           </Link>
         </div>
       </div>

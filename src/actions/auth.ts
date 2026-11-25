@@ -20,12 +20,12 @@ export async function loginAction(
       switch (error.type) {
         case "CredentialsSignin":
           return {
-            error: "Email atau password salah. Silakan coba lagi.",
+            error: "Неверный email или пароль. Пожалуйста, попробуйте снова.",
             success: false,
           };
         default:
           return {
-            error: "Terjadi kesalahan saat login. Silakan coba lagi.",
+            error: "Произошла ошибка при входе. Пожалуйста, попробуйте снова.",
             success: false,
           };
       }

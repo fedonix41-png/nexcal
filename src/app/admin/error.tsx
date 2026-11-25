@@ -34,16 +34,16 @@ export default function AdminError({
         </div>
 
         <h2 className="mb-2 text-xl font-bold text-red-800 dark:text-red-300">
-          Terjadi Kesalahan
+          Произошла ошибка
         </h2>
         <p className="mb-6 max-w-md text-sm text-red-600 dark:text-red-400">
-          Maaf, terjadi kesalahan saat memuat halaman ini. Silakan coba lagi
-          atau kembali ke dashboard.
+          Извините, произошла ошибка при загрузке этой страницы. Пожалуйста,
+          попробуйте ещё раз или вернитесь в дашборд.
         </p>
 
         {error.digest && (
           <p className="mb-4 font-mono text-xs text-red-400 dark:text-red-500">
-            Kode Error: {error.digest}
+            Код ошибки: {error.digest}
           </p>
         )}
 
@@ -52,13 +52,13 @@ export default function AdminError({
             onClick={reset}
             className="rounded-xl bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-red-700 hover:shadow-md active:scale-95"
           >
-            Coba Lagi
+            Попробовать снова
           </button>
           <a
             href="/admin/dashboard"
             className="rounded-xl border border-red-200 bg-white px-6 py-2.5 text-sm font-semibold text-red-700 transition-all hover:bg-red-50 dark:border-red-800 dark:bg-red-950 dark:text-red-300 dark:hover:bg-red-900"
           >
-            Kembali ke Dashboard
+            Вернуться в дашборд
           </a>
         </div>
       </div>

@@ -40,11 +40,11 @@ export async function getAvailableSlotsAction(
     });
 
     if (!service) {
-      return { slots: [], error: "Layanan tidak ditemukan." };
+      return { slots: [], error: "Услуга не найдена." };
     }
 
     const targetDate = parse(dateStr, "yyyy-MM-dd", new Date());
-    if (!Number.isFinite(+targetDate)) return { slots: [], error: "Tanggal tidak valid." };
+    if (!Number.isFinite(+targetDate)) return { slots: [], error: "Некорректная дата." };
     const userId = service.userId;
 
     const [schedules, overrides, bookings, calendarBusy] = await Promise.all([
@@ -97,7 +97,7 @@ export async function getAvailableSlotsAction(
 
     return { slots, error: null };
   } catch (error) {
-    return { slots: [], error: error instanceof CalendarFeedError ? error.message : "Gagal memuat slot. Silakan coba lagi." };
+    return { slots: [], error: error instanceof CalendarFeedError ? error.message : "Не удалось загрузить слоты. Пожалуйста, попробуйте снова." };
   }
 }
 

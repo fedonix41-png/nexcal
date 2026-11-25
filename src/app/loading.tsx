@@ -7,7 +7,7 @@ export default function RootLoading() {
           <div className="absolute inset-0 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600 dark:border-slate-700 dark:border-t-blue-500" />
         </div>
         <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-          Memuat...
+          Загрузка...
         </p>
       </div>
     </div>

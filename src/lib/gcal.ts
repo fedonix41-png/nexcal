@@ -135,12 +135,12 @@ async function insertEventToCalendar(accessToken: string, info: BookingEventInfo
   const event: Record<string, any> = {
     summary: `📅 ${info.patientName} — ${info.serviceName}`,
     description: [
-      `Pelanggan: ${info.patientName}`,
-      `Telepon: ${info.patientPhone}`,
-      `Layanan: ${info.serviceName}`,
-      info.notes ? `Catatan: ${info.notes}` : null,
+      `Клиент: ${info.patientName}`,
+      `Телефон: ${info.patientPhone}`,
+      `Услуга: ${info.serviceName}`,
+      info.notes ? `Примечание: ${info.notes}` : null,
       ``,
-      `Dibuat oleh ${info.clinicName || "NexCal"}`,
+      `Создано в ${info.clinicName || "NexCal"}`,
     ]
       .filter(Boolean)
       .join("\n"),
@@ -201,14 +201,14 @@ export async function pushBookingToCalendar(info: BookingEventInfo): Promise<str
   const config = await getGCalConfig(info.organizationId);
   if (!config.clientId || !config.clientSecret) {
     throw new Error(
-      "Konfigurasi Google Calendar belum diatur untuk organisasi ini. Buka Pengaturan → Google Calendar untuk mengisinya."
+      "Настройки Google Calendar для этой организации не заданы. Откройте Настройки → Google Calendar, чтобы заполнить их."
     );
   }
 
   const accessToken = await getValidAccessToken(info.userId, config);
   if (!accessToken) {
     throw new Error(
-      "Staf ini belum menghubungkan Google Calendar-nya. Minta staf untuk membuka Pengaturan → Google Calendar → Hubungkan."
+      "Этот сотрудник ещё не подключил Google Calendar. Попросите сотрудника открыть Настройки → Google Calendar → Подключить."
     );
   }
 
